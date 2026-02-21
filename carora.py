@@ -2,11 +2,11 @@ from dataclasses import dataclass
 
 
 @dataclass  # we dont need a constructor with the dataclass decorator
-class Car:
+class Cars:
     make: str
     model: str
     cost: float
-    mileage: int = 0
+    mileage: int
 
     def __str__(self):
         return (
@@ -17,8 +17,22 @@ class Car:
         )
 
 
-# Instatiate a Car
-tesla = Car("Testla", "Model 3", 35000, 9870)
+@dataclass
+class ElectricCars(Cars):
+    range_miles: int
+
+    def __str__(self):
+        parent_info = super().__str__()
+        return f"{parent_info}\nAutonomy Range: {self.range_miles} miles"
+
+
+# Instatiate
+camry = Cars("Toyota", "Camry", 35000, 9870)
+model3 = ElectricCars("Tesla", "Model 3", 45000, 3300, 450)
+
 
 if __name__ == "__main__":
-    print(tesla)
+    print("--- Gas Car ---")
+    print(camry)
+    print("\n--- Electric Car ---")
+    print(model3)
