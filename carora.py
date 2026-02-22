@@ -28,15 +28,16 @@ class ElectricCars(Cars):
 
 
 class Concession:
-    def __init__(self, name, inventory=[]):
+    def __init__(self, name, inventory=None):
         self.name = name
-        self.inventory = inventory
+        self.inventory = inventory if inventory is not None else []
 
     def add_car(self, car):
         self.inventory.append(car)
 
     def display_car_info(self):
-        print("--- Inventory ---")
+        print(f"***** Welcome to {self.name} *****")
+        print("\n--- Inventory ---")
         for car in self.inventory:
             print(f"\n{car}")
 
@@ -46,12 +47,21 @@ class Concession:
             if make == self.inventory[i].make and model == self.inventory[i].model:
                 self.inventory.pop(i)
                 print(f"\nCar of make: {make} and model: {model} was sold.")
-                break
-            else:
-                print(
-                    f"\nCar of make: {make} and model: {model} was not found in inventory."
-                )
-                break
+                return
+
+        print(f"\nCar of make: {make} and model: {model} was not found in inventory.")
+
+    def total_cost(self):
+        if not self.inventory:
+            print("No Cars Available...")
+            return
+        total_price = 0
+        for car in self.inventory:
+            total_price += car.cost
+        avg_price = total_price / len(self.inventory)
+        print("\n--- Price Info ---")
+        print(f"Total cost of all cars in the shop: ${total_price}")
+        print(f"The average price of a car in the shop: ${avg_price:.2f}")
 
 
 # Instatiate
@@ -66,3 +76,4 @@ c1.add_car(fusion)
 if __name__ == "__main__":
     c1.display_car_info()
     c1.sell_cars("Toyota", "Camry")
+    c1.total_cost()
